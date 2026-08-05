@@ -70,8 +70,14 @@ text survive a restyle, Tailwind class names do not. Three details in this app
 drive the approach:
 
 - **Column headings include a count** — the heading reads `To Do (2)`, not
-  `To Do`. An exact-text match fails. `BoardPage.column()` matches the name as a
-  substring, then treats the heading's parent as the column container.
+  `To Do`, so an exact-text match finds nothing. A substring match is the
+  obvious alternative but is too loose in the other direction: it also selects a
+  column named `To Dos` or `To Do Later`, silently making the locator ambiguous
+  and passing a test that should fail. `BoardPage.column()` therefore matches an
+  anchored pattern — the full name, count optional, nothing after it — and
+  treats the heading's parent as the column container. Verified by intercepting
+  the app bundle and renaming columns at runtime: `To Do` → `To Dos` now fails,
+  and a second column containing `To Do` no longer creates a double match.
 - **Scoping proves placement.** `taskCard(column, task)` is scoped *inside* the
   column, so an identically titled card elsewhere on the board cannot satisfy
   it. That is what makes "is in the To Do column" a real assertion rather than

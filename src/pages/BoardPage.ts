@@ -45,13 +45,22 @@ export class BoardPage {
   /**
    * A board column, located via its `<h2>` heading.
    *
-   * Column headings include a task count ("To Do (2)"), so this deliberately
-   * matches the name as a substring rather than exactly. The heading's parent
-   * element is the column container that holds the cards.
+   * The heading text carries a task count — "To Do (2)", not "To Do" — so an
+   * exact string match finds nothing. The obvious alternative, a substring
+   * match, is too loose in the other direction: it would also select a column
+   * named "To Do Later" or "To Dos", quietly making the locator ambiguous.
+   *
+   * So the name is matched by an anchored pattern instead: the column name in
+   * full, with the count tolerated but optional, and nothing after it. A
+   * renamed column then fails loudly rather than matching by accident.
+   *
+   * The heading's parent element is the column container holding the cards.
    */
   column(columnName: string): Locator {
+    const headingName = new RegExp(`^${escapeRegExp(columnName)}\\s*(\\(\\d+\\))?$`);
+
     return this.board
-      .getByRole('heading', { level: 2, name: columnName })
+      .getByRole('heading', { level: 2, name: headingName })
       .locator('xpath=..');
   }
 
@@ -103,7 +112,12 @@ export class BoardPage {
   }
 }
 
+/** Escapes regex metacharacters so a plain string can be embedded in a pattern. */
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 /** Builds an anchored regex so `hasText` matches a whole pill, not a substring. */
 function exactText(value: string): RegExp {
-  return new RegExp(`^\\s*${value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`);
+  return new RegExp(`^\\s*${escapeRegExp(value)}\\s*$`);
 }
