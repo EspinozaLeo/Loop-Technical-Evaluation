@@ -6,3 +6,4 @@ playwright/.cache/
 .env
 *.log
 .DS_Store
+notes/
