@@ -1,5 +1,7 @@
 # Data-Driven Playwright Suite — Project Board Demo
 
+[![Playwright Tests](https://github.com/EspinozaLeo/Loop-Technical-Evaluation/actions/workflows/playwright.yml/badge.svg)](https://github.com/EspinozaLeo/Loop-Technical-Evaluation/actions/workflows/playwright.yml)
+
 A Playwright + TypeScript suite that verifies task placement and tagging on the
 [demo project board](https://create-asana-like-pr-39y5.bolt.host/). All six
 acceptance-criteria scenarios are generated from a single JSON dataset, so
