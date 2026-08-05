@@ -1,0 +1,27 @@
+{
+  "name": "playwright-interview",
+  "version": "1.0.0",
+  "description": "Data-driven Playwright + TypeScript suite verifying the Asana-like demo project board",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "data-driven",
+    "qa-automation"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}
